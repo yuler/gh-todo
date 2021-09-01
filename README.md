@@ -1,11 +1,22 @@
 # gh todo
 
-[GitHub CLI] extension for todo list manager via GitHub issues
+[GitHub CLI] extension for todo list manager, via GitHub issues.
 
 ## Install
 
 ```bash
 gh extension install yuler/gh-todo
+```
+
+## Usage
+
+```bash
+# create `todo` repo
+gh todo init
+# show todo list
+gh todo
+# add todo item
+gh todo add <item>
 ```
 
 ## Features

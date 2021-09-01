@@ -10,8 +10,8 @@ Usage: gh todo
 
 Actions:
     init        Create \`todo\` repo
-    add         Create a todo
-    list        List todo
+    add         Add todo item
+    list        Show todo list
 
 Examples:
     gh todo add abc
