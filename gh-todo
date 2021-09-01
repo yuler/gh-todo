@@ -1,0 +1,73 @@
+#!/bin/bash
+set -e
+
+help() {
+    cat <<-EOF
+Usage: gh todo
+
+[GitHub CLI] extension for todo list manager via GitHub issues
+
+Actions:
+    init        Create \`todo\` repo
+    add         Create a todo
+    list        List todo
+
+Examples:
+    gh todo add abc
+EOF
+}
+
+# help functions
+_init() {
+    exec gh repo create --confirm todo
+}
+
+_add() {
+    echo "$date"
+    echo "_addto"
+    # input="$1"
+}
+
+_list() {
+    echo "TODO List"
+}
+
+# main
+if [[ $# -eq 0 ]]; then
+    _list
+    exit 0
+fi
+
+date=$(date -u +"%Y-%m-%d")
+
+while [ $# -gt 0 ]; do
+    case "$1" in
+    -h | --help)
+        help
+        exit 0
+        ;;
+    init)
+        _init
+        shift
+        ;;
+    add)
+        if [[ -z "$2" ]]; then
+            echo -n "Add:"
+            read -e -r input
+        else
+            shift
+            input=$*
+        fi
+        _add "$input"
+        ;;
+    *)
+        help >&2
+        exit 1
+        ;;
+    esac
+    shift
+done
+
+# createIssue() {
+
+# }
