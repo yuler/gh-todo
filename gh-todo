@@ -19,7 +19,7 @@ EOF
 }
 
 date=$(date -u +"%Y-%m-%d")
-repo="yuler/test-todo"
+repo="$(git config user.name)/todo"
 
 get_issue_id() {
     echo $(gh issue list --search "$date" --json "number" --jq ".[0].number" --repo $repo)
