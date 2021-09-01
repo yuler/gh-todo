@@ -1,5 +1,6 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+IFS=$'\n\t'
 
 help() {
     cat <<-EOF
@@ -17,28 +18,43 @@ Examples:
 EOF
 }
 
-# help functions
-_init() {
-    exec gh repo create --confirm todo
+date=$(date -u +"%Y-%m-%d")
+repo="yuler/test-todo"
+
+get_issue_id() {
+    echo $(gh issue list --search "$date" --json "number" --jq ".[0].number" --repo $repo)
 }
 
-_add() {
-    echo "$date"
-    echo "_addto"
-    # input="$1"
+init() {
+    exec gh repo create --confirm --private todo
 }
 
-_list() {
-    echo "TODO List"
+add() {
+    input="$1"
+    issue_id=$(get_issue_id)
+    if [[ -z $issue_id ]]; then
+        exec gh issue create --title $date --body "- [ ] $input" --repo $repo
+    else
+        body=$(gh issue list --search "$date" --json "body" --jq ".[0].body" --repo $repo)
+        body=$(echo -e "$body\n- [ ] $input")
+        exec gh issue edit $issue_id --body "$body" --repo $repo
+    fi
+}
+
+list() {
+    issue_id=$(get_issue_id)
+    if [[ -z $issue_id ]]; then
+        echo "No plans for today yet."
+    else
+        exec gh issue view $issue_id --repo $repo
+    fi
 }
 
 # main
 if [[ $# -eq 0 ]]; then
-    _list
+    list
     exit 0
 fi
-
-date=$(date -u +"%Y-%m-%d")
 
 while [ $# -gt 0 ]; do
     case "$1" in
@@ -47,7 +63,7 @@ while [ $# -gt 0 ]; do
         exit 0
         ;;
     init)
-        _init
+        init
         shift
         ;;
     add)
@@ -58,7 +74,7 @@ while [ $# -gt 0 ]; do
             shift
             input=$*
         fi
-        _add "$input"
+        add "$input"
         ;;
     *)
         help >&2
@@ -67,7 +83,3 @@ while [ $# -gt 0 ]; do
     esac
     shift
 done
-
-# createIssue() {
-
-# }
