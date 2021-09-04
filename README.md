@@ -8,24 +8,24 @@
 gh extension install yuler/gh-todo
 ```
 
+## Features
+
+- Simple
+- Easy to use via command line
+- Integration GitHub issues
+
 ## Usage
 
 ```bash
+# help
+gh todo --help
 # create `todo` repo
 gh todo init
 # show todo list
 gh todo
 # add todo item
-gh todo add <item>
+gh todo add [item]
 ```
-
-## Features
-
-- Easy to use via command line
-
-## Usage
-
-- TODO
 
 ## Refs
 
