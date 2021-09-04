@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euo pipefail
+set -eo pipefail
 IFS=$'\n\t'
 
 help() {
@@ -68,7 +68,7 @@ while [ $# -gt 0 ]; do
         ;;
     add)
         if [[ -z "$2" ]]; then
-            echo -n "Add:"
+            echo -n "[Enter]: "
             read -e -r input
         else
             shift
