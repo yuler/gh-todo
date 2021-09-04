@@ -61,6 +61,7 @@ while [ $# -gt 0 ]; do
     case "$1" in
     -v | --version)
         echo $version
+        exit 0
         ;;
     -h | --help)
         help
@@ -79,6 +80,9 @@ while [ $# -gt 0 ]; do
             input=$*
         fi
         add "$input"
+        ;;
+    list)
+        list
         ;;
     *)
         help >&2
