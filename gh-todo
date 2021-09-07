@@ -20,7 +20,7 @@ EOF
 
 version="0.1.0"
 date=$(date -u +"%Y-%m-%d")
-repo="$(git config user.name)/todo"
+repo="$(gh config get -h github.com user)/todo"
 
 get_issue_id() {
     echo $(gh issue list --search "$date" --json "number" --jq ".[0].number" --repo $repo)
