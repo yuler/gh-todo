@@ -19,11 +19,11 @@ EOF
 }
 
 version="0.1.0"
-date=$(date -u +"%Y-%m-%d")
+today=$(date +"%Y-%m-%d")
 repo="$(gh config get -h github.com user)/todo"
 
 get_issue_id() {
-    echo $(gh issue list --search "$date" --json "number" --jq ".[0].number" --repo $repo)
+    gh issue list --search "$today" --json "number" --jq ".[0].number" --repo $repo
 }
 
 init() {
@@ -34,9 +34,9 @@ add() {
     input="$1"
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        exec gh issue create --title $date --body "- [ ] $input" --repo $repo
+        exec gh issue create --title $today --body "- [ ] $input" --repo $repo
     else
-        body=$(gh issue list --search "$date" --json "body" --jq ".[0].body" --repo $repo)
+        body=$(gh issue list --search "$today" --json "body" --jq ".[0].body" --repo $repo)
         body=$(echo -e "$body\n- [ ] $input")
         exec gh issue edit $issue_id --body "$body" --repo $repo
     fi
