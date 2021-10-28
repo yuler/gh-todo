@@ -10,9 +10,17 @@ gh extension install yuler/gh-todo
 
 ## Features
 
-- Simple
-- Easy to use via command line
-- Integration GitHub issues
+-   Simple
+-   Easy to use via command line
+-   Integration GitHub issues
+
+## How it works
+
+First, you need run `gh todo init`. It will create `todo` repo in your GitHub accout.
+
+Then you can use `gh todo add` to add new task. It will create an issue with today(YYYY-mm-dd) as the title in `todo` repo.
+
+The `gh todo` or `gh todo list` where show todo list.
 
 ## Usage
 
@@ -27,10 +35,10 @@ gh todo
 gh todo add [item]
 ```
 
-## Refs
+## Related
 
-- [todo.txt-cli]
-- [taskbook]
+-   [todo.txt-cli]
+-   [taskbook]
 
 <!-- Links -->
 
