@@ -1,5 +1,8 @@
 name-template: 'v$RESOLVED_VERSION 🌈'
 tag-template: 'v$RESOLVED_VERSION'
+template: |
+  ## Changes
+  $CHANGES
 categories:
   - title: '🚀 Features'
     labels:
@@ -7,25 +10,54 @@ categories:
       - 'enhancement'
   - title: '🐛 Bug Fixes'
     labels:
-      - 'fix'
-      - 'bugfix'
       - 'bug'
   - title: '🧰 Maintenance'
     label: 'chore'
-change-template: '- $TITLE @$AUTHOR (#$NUMBER)'
-change-title-escapes: '\<*_&' # You can add # and @ to disable mentions, and add ` to disable code blocks.
+  - title: '📖 Documentation'
+    label:
+      - 'docs'
+      - 'documentation'
+  - title: '🆙 Dependency Updates'
+    label: 'deps'
+
 version-resolver:
   major:
     labels:
       - 'major'
+      - 'breaking'
   minor:
     labels:
       - 'minor'
+      - 'feature'
+      - 'enhancement'
   patch:
     labels:
       - 'patch'
+      - 'bug'
+      - 'chore'
+      - 'documentation'
+      - 'docs'
+      - 'deps'
   default: patch
-template: |
-  ## Changes
 
-  $CHANGES
+exclude-labels:
+  - 'skip-changelog'
+
+autolabeler:
+  - label: 'documentation'
+    files:
+      - '*.md'
+    branch:
+      - '/docs{0,1}\/.+/'
+  - label: 'bug'
+    branch:
+      - '/fix\/.+/'
+    title:
+      - '/fix/i'
+    body:
+      - '/Fixes:\s#[0-9]{1,4}/'
+  - label: 'enhancement'
+    branch:
+      - '/feature\/.+/'
+    titile:
+      - '/feat/i'
