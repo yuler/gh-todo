@@ -27,7 +27,7 @@ get_issue_id() {
 }
 
 init() {
-    exec gh repo create --confirm --private todo
+    exec gh repo create --confirm --private --template=yuler/template-todo todo
 }
 
 add() {
