@@ -2,6 +2,11 @@
 
 [GitHub CLI] extension for todo list manager, via GitHub issues.
 
+> Keep three and only three lists: a Todo List, a Watch List, and a Later List.
+>
+> --- [Marc Andreessen’s guide to personal productivity.
+> ](https://pmarchive.com/guide_to_personal_productivity.html)
+
 ## Install
 
 ```bash
