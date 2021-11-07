@@ -21,9 +21,9 @@ gh extension install yuler/gh-todo
 
 ## How it works
 
-First, you need run `gh todo init`. It will create `todo` repo in your GitHub accout.
+First, you need run `gh todo init`. It will create `todo` repo based on [yuler/template-todo](https://github.com/yuler/template-todo) in your GitHub account.
 
-Then you can use `gh todo add` to add new task. It will create an issue with today(YYYY-mm-dd) as the title in `todo` repo.
+Then you can use `gh todo add` to add new task. It will create an issue with today(yyyy-MM-dd) as the title in `todo` repo.
 
 The `gh todo` or `gh todo list` where show todo list.
 
