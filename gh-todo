@@ -30,6 +30,10 @@ init() {
     exec gh repo create --confirm --private --template=yuler/template-todo todo
 }
 
+home() {
+    gh issue list --web --repo $repo
+}
+
 add() {
     input="$1"
     issue_id=$(get_issue_id)
@@ -69,6 +73,10 @@ while [ $# -gt 0 ]; do
         ;;
     init)
         init
+        shift
+        ;;
+    home)
+        home
         shift
         ;;
     add)

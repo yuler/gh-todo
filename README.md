@@ -34,6 +34,8 @@ The `gh todo` or `gh todo list` where show todo list.
 gh todo --help
 # create `todo` repo
 gh todo init
+# goto `issues` web page
+gh todo home
 # show todo list
 gh todo
 # add todo item
