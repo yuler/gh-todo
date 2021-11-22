@@ -40,21 +40,38 @@ The `gh todo` or `gh todo list` where show todo list.
 ## Usage
 
 ```bash
-# help
+# Show help for command
 gh todo --help
-# create `todo` repo
+# Create `todo` repo
 gh todo init --template=yuler/template-todo
-# open `issues` in browser
+# Open `issues` in browser
 gh todo home
-# add todo item
+# Add todo item
 gh todo add [item]
-# open `issue` in browser
+# Open `issue` in browser
 gh todo edit
-# close `issue`
+# Close `issue`
 gh todo done
-# show todo list
+# Show todo list
 gh todo list
 ```
+
+## ZSH Completion
+
+- Define `gh-todo` function in `.zshrc`
+
+  ```zsh
+  gh-todo() {
+    gh todo $@
+  }
+  ```
+
+- Ensure autoload `compinit`
+- Add completion to `zsh/site-functions`
+
+  ```bash
+  curl https://raw.githubusercontent.com/yuler/gh-todo/main/completion.zsh > /usr/local/share/zsh/site-functions/\_gh-todo
+  ```
 
 ## Related
 
