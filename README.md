@@ -45,12 +45,16 @@ The `gh todo` or `gh todo list` where show todo list.
 gh todo --help
 # create `todo` repo
 gh todo init
-# open `issues` web page
+# open `issues` in browser
 gh todo home
-# show todo list
-gh todo
 # add todo item
 gh todo add [item]
+# open `issue` in browser
+gh todo edit
+# close `issue`
+gh todo done
+# show todo list
+gh todo list
 ```
 
 ## Related

@@ -10,8 +10,10 @@ Usage: gh todo
 
 Actions:
     init        Create \`todo\` repo
-    home        Open \`issues\` web page
+    home        Open \`issues\` in browser
     add         Add todo item
+    edit        Open \`issue\` in browser
+    done        Close \`issue\`
     list        Show todo list
 
 Examples:
@@ -52,6 +54,23 @@ add() {
         body=$(gh issue list --search "$today" --json "body" --jq ".[0].body" --repo $repo)
         body=$(echo -e "$body\n- [ ] $input")
         exec gh issue edit $issue_id --body "$body" --repo $repo
+    fi
+}
+
+edit() {
+    issue_id=$(get_issue_id)
+    if [[ -z $issue_id ]]; then
+        exec gh issue create --title $today --body "" --repo $repo
+    fi
+    exec gh issue view $issue_id --repo $repo --web
+}
+
+_done() {
+    issue_id=$(get_issue_id)
+    if [[ -z $issue_id ]]; then
+        echo "No plans for today yet."
+    else
+        exec gh issue close $issue_id --repo $repo
     fi
 }
 
@@ -97,6 +116,14 @@ while [ $# -gt 0 ]; do
             input=$*
         fi
         add "$input"
+        ;;
+    edit)
+        shift
+        edit $@
+        ;;
+    done)
+        shift
+        _done $@
         ;;
     list)
         list
