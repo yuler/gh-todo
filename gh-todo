@@ -19,7 +19,7 @@ Examples:
 EOF
 }
 
-version="0.1.0"
+version="0.2.2"
 today=$(date +"%Y-%m-%d")
 repo="$(gh config get -h github.com user)/todo"
 
