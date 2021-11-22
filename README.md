@@ -42,6 +42,18 @@ gh todo
 gh todo add [item]
 ```
 
+## Configuration
+
+Overwrite your todo repository with:
+```bash
+export GH_TODO_REPOSITORY=https://github.com/my/todos
+```
+
+Overwrite the template repository with:
+```bash
+export GH_TODO_TEMPLATE_REPOSITORY=https://github.com/my/todos-templates
+```
+
 ## Related
 
 - [todo.txt-cli]

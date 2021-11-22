@@ -21,14 +21,25 @@ EOF
 
 version="0.2.2"
 today=$(date +"%Y-%m-%d")
+
 repo="$(gh config get -h github.com user)/todo"
+
+if [ -n "$GH_TODO_REPOSITORY" ]; then
+      repo="$GH_TODO_REPOSITORY"	
+fi
+
+template_repo=https://github.com/yuler/template-todo
+
+if [ -n "$GH_TODO_TEMPLATE_REPOSITORY" ]; then
+      template_repo="$GH_TODO_TEMPLATE_REPOSITORY"	
+fi
 
 get_issue_id() {
     gh issue list --search "$today" --json "number" --jq ".[0].number" --repo $repo
 }
 
 init() {
-    exec gh repo create --confirm --private --template=yuler/template-todo todo
+    exec gh repo create --confirm --private --template="$template_repo" todo
 }
 
 home() {
