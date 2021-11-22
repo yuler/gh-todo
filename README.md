@@ -15,9 +15,9 @@ gh extension install yuler/gh-todo
 
 ## Features
 
--   Simple
--   Easy to use via command line
--   Integration GitHub issues
+- Simple
+- Easy to use via command line
+- Integration GitHub issues
 
 ## How it works
 
@@ -44,8 +44,8 @@ gh todo add [item]
 
 ## Related
 
--   [todo.txt-cli]
--   [taskbook]
+- [todo.txt-cli]
+- [taskbook]
 
 <!-- Links -->
 
