@@ -23,6 +23,17 @@ gh extension install yuler/gh-todo
 
 First, you need run `gh todo init`. It will create `todo` repo based on [yuler/template-todo](https://github.com/yuler/template-todo) in your GitHub account.
 
+**Note:**
+
+- You can override the default repo name `todo` with the environment variable `GH_TODO_REPO`. Like this:
+
+  ```bash
+  export GH_TODO_REPO=repo-todo
+  gh todo init
+  ```
+
+- And you can use `gh todo init --template yourname/template-todo` to use your own template.
+
 Then you can use `gh todo add` to add new task. It will create an issue with today(yyyy-MM-dd) as the title in `todo` repo.
 
 The `gh todo` or `gh todo list` where show todo list.
@@ -40,18 +51,6 @@ gh todo home
 gh todo
 # add todo item
 gh todo add [item]
-```
-
-## Configuration
-
-Overwrite your todo repository with:
-```bash
-export GH_TODO_REPOSITORY=https://github.com/my/todos
-```
-
-Overwrite the template repository with:
-```bash
-export GH_TODO_TEMPLATE_REPOSITORY=https://github.com/my/todos-templates
 ```
 
 ## Related
