@@ -2,7 +2,7 @@
 set -eo pipefail
 IFS=$'\n\t'
 
-help() {
+usage() {
     cat <<-EOF
 Usage: gh todo
 
@@ -24,7 +24,6 @@ EOF
 version="0.2.2"
 today=$(date +"%Y-%m-%d")
 repo="$(gh config get -h github.com user)/todo"
-template_repo="yuler/template-todo"
 
 if [ -n "$GH_TODO_REPO" ]; then
     repo="$GH_TODO_REPO"
@@ -35,10 +34,7 @@ get_issue_id() {
 }
 
 init() {
-    if [[ $1 == "--template" ]]; then
-        template_repo=$2
-    fi
-    exec gh repo create --confirm --private --template $template_repo todo
+    exec gh repo create --confirm --private $@ $repo
 }
 
 home() {
@@ -91,12 +87,12 @@ fi
 
 while [ $# -gt 0 ]; do
     case "$1" in
-    -v | --version)
+    --version)
         echo $version
         exit 0
         ;;
-    -h | --help)
-        help
+    --help)
+        usage
         exit 0
         ;;
     init)
