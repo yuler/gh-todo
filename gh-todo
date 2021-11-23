@@ -55,7 +55,7 @@ add() {
 edit() {
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        exec gh issue create --title $today --body "" --repo $repo
+        echo "No plans for today yet."
     fi
     exec gh issue view $issue_id --repo $repo --web
 }
