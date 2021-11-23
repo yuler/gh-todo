@@ -125,7 +125,7 @@ while [ $# -gt 0 ]; do
         list
         ;;
     *)
-        help >&2
+        usage >&2
         exit 1
         ;;
     esac
