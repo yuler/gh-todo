@@ -24,6 +24,9 @@ _gh-todo() {
         init)
             _arguments '(--template)--template[template repo]'
             ;;
+        add | view | edit | done | list)
+            _arguments '(--scope)--scope[todo scope]'
+            ;;
         esac
         ;;
     esac
