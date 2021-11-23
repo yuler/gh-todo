@@ -11,25 +11,75 @@ Actions:
     init        Create \`todo\` repo
     home        Open \`issues\` in browser
     add         Add todo item
-    edit        Open \`issue\` in browser
+    view/edit   Open \`issue\` in browser
     done        Close \`issue\`
     list        Show todo list
 
+Options:
+    --version   Show version
+    --help      Show help for command
+    --scope     TODO scope, default: today(yyyy-MM-dd).
+                Support [yesterday, tommorow, weekly, monthly, yearly].
+                Any other will be used directly as issue title.
 Examples:
     gh todo add abc
 EOF
 }
 
 version="0.3.0"
-today=$(date +"%Y-%m-%d")
+
 repo="$(gh config get -h github.com user)/todo"
 
 if [ -n "$GH_TODO_REPO" ]; then
     repo="$GH_TODO_REPO"
 fi
 
+# parse `--scope` option
+POSITIONAL=()
+while [[ $# -gt 0 ]]; do
+    key="$1"
+
+    case $key in
+    --scope)
+        scope="$2"
+        shift # past argument
+        shift # past value
+        ;;
+    *)                     # unknown option
+        POSITIONAL+=("$1") # save it in an array for later
+        shift              # past argument
+        ;;
+    esac
+done
+set -- "${POSITIONAL[@]}" # restore positional parameters
+
+issue_title=$(date +"%Y-%m-%d")
+# get issue id by `--scope`
 get_issue_id() {
-    gh issue list --search "$today" --json "number" --jq ".[0].number" --repo $repo
+    if [ -n "$scope" ]; then
+        case "$scope" in
+        yesterday)
+            issue_title=$(date -v-1d +"%Y-%m-%d")
+            ;;
+        tommorow)
+            issue_title=$(date -v+1d +"%Y-%m-%d")
+            ;;
+        week)
+            issue_title="Week: $(date -v -Mon +"%Y-%m-%d") ~ $(date -v -Mon -v+6d +"%Y-%m-%d")"
+            ;;
+        month)
+            issue_title="Month: $(date +"%Y-%m")"
+            ;;
+        year)
+            issue_title="Year: $(date +"%Y")"
+            ;;
+        *)
+            issue_title=$scope
+            ;;
+        esac
+    fi
+
+    gh issue list --search "$issue_title" --json "number" --jq ".[0].number" --repo $repo
 }
 
 init() {
@@ -44,9 +94,9 @@ add() {
     input="$1"
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        exec gh issue create --title $today --body "- [ ] $input" --repo $repo
+        exec gh issue create --title $issue_title --body "- [ ] $input" --repo $repo
     else
-        body=$(gh issue list --search "$today" --json "body" --jq ".[0].body" --repo $repo)
+        body=$(gh issue list --search "$issue_title" --json "body" --jq ".[0].body" --repo $repo)
         body=$(echo -e "$body\n- [ ] $input")
         exec gh issue edit $issue_id --body "$body" --repo $repo
     fi
@@ -55,7 +105,7 @@ add() {
 edit() {
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        echo "No plans for today yet."
+        echo "No plans for $issue_title yet."
     fi
     exec gh issue view $issue_id --repo $repo --web
 }
@@ -63,7 +113,7 @@ edit() {
 _done() {
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        echo "No plans for today yet."
+        echo "No plans for $issue_title yet."
     else
         exec gh issue close $issue_id --repo $repo
     fi
@@ -72,7 +122,7 @@ _done() {
 list() {
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        echo "No plans for today yet."
+        echo "No plans for $issue_title yet."
     else
         exec gh issue view $issue_id --repo $repo
     fi
@@ -112,15 +162,16 @@ while [ $# -gt 0 ]; do
         fi
         add "$input"
         ;;
-    edit)
+    view | edit)
         shift
-        edit $@
+        edit
         ;;
     done)
         shift
-        _done $@
+        _done
         ;;
     list)
+        shift
         list
         ;;
     *)
