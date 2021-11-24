@@ -35,7 +35,7 @@ First, you need run `gh todo init`. It will create `todo` repo in your GitHub ac
 
 Then you can use `gh todo add` to add new task. It will create an issue with today(yyyy-MM-dd) as the title in `todo` repo.
 
-You can specify the issue title with `--scope`. The default is today(yyyy-MM-dd). Current support [yesterday, tommorow, week, month, year]. Any other will be used directly as issue title.
+You can specify the issue title with `--scope`. The default is today(yyyy-MM-dd). Current support [yesterday, tomorrow, week, month, year]. Any other will be used directly as issue title.
 
 The `gh todo` or `gh todo list` where show todo list.
 

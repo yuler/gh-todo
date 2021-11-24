@@ -19,14 +19,14 @@ Options:
     --version   Show version
     --help      Show help for command
     --scope     TODO scope, default: today(yyyy-MM-dd).
-                Support [yesterday, tommorow, weekly, monthly, yearly].
+                Support [yesterday, tomorrow, weekly, monthly, yearly].
                 Any other will be used directly as issue title.
 Examples:
     gh todo add abc
 EOF
 }
 
-version="0.4.0"
+version="0.4.1"
 
 repo="$(gh config get -h github.com user)/todo"
 
@@ -61,7 +61,7 @@ get_issue_id() {
         yesterday)
             issue_title=$(date -v-1d +"%Y-%m-%d")
             ;;
-        tommorow)
+        tomorrow)
             issue_title=$(date -v+1d +"%Y-%m-%d")
             ;;
         week)
