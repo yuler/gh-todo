@@ -96,7 +96,7 @@ add() {
     if [[ -z $issue_id ]]; then
         exec gh issue create --title $issue_title --body "- [ ] $input" --repo $repo
     else
-        body=$(gh issue list --search "$issue_title" --json "body" --jq ".[0].body" --repo $repo)
+        body=$(gh issue view $issue_id --json "body" --jq ".body" --repo $repo)
         body=$(echo -e "$body\n- [ ] $input")
         exec gh issue edit $issue_id --body "$body" --repo $repo
     fi
