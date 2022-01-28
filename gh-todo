@@ -94,6 +94,10 @@ add() {
     input="$1"
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
+        # use scope as issue title if no issue found
+        if [[ -n $scope ]]; then
+            issue_title=$scope
+        fi
         exec gh issue create --title $issue_title --body "- [ ] $input" --repo $repo
     else
         body=$(gh issue view $issue_id --json "body" --jq ".body" --repo $repo)
