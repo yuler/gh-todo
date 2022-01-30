@@ -53,32 +53,7 @@ while [[ $# -gt 0 ]]; do
 done
 set -- "${POSITIONAL[@]}" # restore positional parameters
 
-issue_title=$(date +"%Y-%m-%d")
-# get issue id by `--scope`
 get_issue_id() {
-    if [ -n "$scope" ]; then
-        case "$scope" in
-        yesterday)
-            issue_title=$(date -v-1d +"%Y-%m-%d")
-            ;;
-        tomorrow)
-            issue_title=$(date -v+1d +"%Y-%m-%d")
-            ;;
-        week)
-            issue_title="Week: $(date -v -Mon +"%Y-%m-%d") ~ $(date -v -Mon -v+6d +"%Y-%m-%d")"
-            ;;
-        month)
-            issue_title="Month: $(date +"%Y-%m")"
-            ;;
-        year)
-            issue_title="Year: $(date +"%Y")"
-            ;;
-        *)
-            issue_title=$scope
-            ;;
-        esac
-    fi
-
     gh issue list --search "$issue_title" --json "number" --jq ".[0].number" --repo $repo
 }
 
@@ -94,11 +69,7 @@ add() {
     input="$1"
     issue_id=$(get_issue_id)
     if [[ -z $issue_id ]]; then
-        # use scope as issue title if no issue found
-        if [[ -n $scope ]]; then
-            issue_title=$scope
-        fi
-        exec gh issue create --title $issue_title --body "- [ ] $input" --repo $repo
+        exec gh issue create --title "$issue_title" --body "- [ ] $input" --repo $repo
     else
         body=$(gh issue view $issue_id --json "body" --jq ".body" --repo $repo)
         body=$(echo -e "$body\n- [ ] $input")
@@ -136,6 +107,31 @@ list() {
 if [[ $# -eq 0 ]]; then
     list
     exit 0
+fi
+
+issue_title=$(date +"%Y-%m-%d")
+# get issue id by `--scope`
+if [ -n "$scope" ]; then
+    case "$scope" in
+    yesterday)
+        issue_title=$(date -v-1d +"%Y-%m-%d")
+        ;;
+    tomorrow)
+        issue_title=$(date -v+1d +"%Y-%m-%d")
+        ;;
+    week)
+        issue_title="Week: $(date -v -Mon +"%Y-%m-%d") ~ $(date -v -Mon -v+6d +"%Y-%m-%d")"
+        ;;
+    month)
+        issue_title="Month: $(date +"%Y-%m")"
+        ;;
+    year)
+        issue_title="Year: $(date +"%Y")"
+        ;;
+    *)
+        issue_title=$scope
+        ;;
+    esac
 fi
 
 while [ $# -gt 0 ]; do
