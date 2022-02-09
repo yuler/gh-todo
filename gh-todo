@@ -19,7 +19,7 @@ Options:
     --version   Show version
     --help      Show help for command
     --scope     TODO scope, default: today(yyyy-MM-dd).
-                Support [yesterday, tomorrow, weekly, monthly, yearly].
+                Support [yesterday, tomorrow, week, month, year].
                 Any other will be used directly as issue title.
 Examples:
     gh todo add abc
